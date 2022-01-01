@@ -50,7 +50,7 @@ function App() {
     <>
       <Router>
         <Routes>
-          <Route path='/' element={<PrivateRoute user={user} />}>
+          <Route path='/' element={<PrivateRoute />}>
             <Route index element={<Explore />} />
             <Route path='/offers' element={<Offers />} />
             <Route path='/profile' element={<Profile />} />
