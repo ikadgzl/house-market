@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import { updateProfile } from 'firebase/auth';
 import { updateDoc, doc } from 'firebase/firestore';
@@ -10,8 +10,6 @@ import homeIcon from '../assets/svg/homeIcon.svg';
 import { toast } from 'react-toastify';
 
 function Profile() {
-  const navigate = useNavigate();
-
   const [formData, setFormData] = useState({
     name: auth.currentUser.displayName,
     email: auth.currentUser.email
@@ -19,11 +17,10 @@ function Profile() {
   const [changeDetails, setChangeDetails] = useState(false);
 
   const handleLogOut = async () => {
-    await auth.signOut();
     toast.success('Signed Out.');
 
     setTimeout(() => {
-      navigate('/sign-in');
+      auth.signOut();
     }, 1000);
   };
 
