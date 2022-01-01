@@ -1,6 +1,4 @@
-import { onAuthStateChanged } from 'firebase/auth';
-import { useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import Spinner from '../components/Spinner';
 import { auth } from '../firebase/config';
 
@@ -21,35 +19,28 @@ const INITIAL_DATA = {
 };
 
 function CreateListing() {
-  const [formData, setFormData] = useState(INITIAL_DATA);
+  const [formData, setFormData] = useState({
+    ...INITIAL_DATA,
+    userRef: auth.currentUser.uid
+  });
   const [geolocationEnabled, setGeolocationEnabled] = useState(true);
   const [loading, setLoading] = useState(false);
 
-  const navigate = useNavigate();
-  let isMounted = useRef(false).current;
+  const handleCreateListing = (e) => {
+    e.preventDefault();
+  };
 
-  useEffect(() => {
-    isMounted = true;
+  return (
+    <div className='profile'>
+      <header>
+        <p className='pageHeader'>Create a Listing</p>
+      </header>
 
-    if (isMounted) {
-      onAuthStateChanged(auth, (user) => {
-        if (user) {
-          setFormData({ ...formData, userRef: user.uid });
-        } else {
-          navigate('/sign=in');
-        }
-      });
-    }
-
-    return () => {
-      isMounted = false;
-    };
-  }, [isMounted]);
-
-  if (loading) {
-    return <Spinner />;
-  }
-  return <div>create</div>;
+      <main>
+        <form onSubmit={handleCreateListing}></form>
+      </main>
+    </div>
+  );
 }
 
 export default CreateListing;
