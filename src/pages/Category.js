@@ -14,7 +14,7 @@ function Category() {
   useEffect(() => {
     const fetchListingsAsync = async () => {
       const listings = await fetchListings(['type', '==', categoryName]);
-
+      console.log(listings);
       if (listings.length > 0) {
         setListings(listings);
       }

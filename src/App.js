@@ -31,10 +31,7 @@ function App() {
               <Route index element={<Explore />} />
               <Route path='/offers' element={<Offers />} />
               <Route path='/profile' element={<Profile />} />
-              <Route
-                path='/profile/create-listing'
-                element={<CreateListing />}
-              />
+              <Route path='/create-listing' element={<CreateListing />} />
               <Route path='/category/:categoryName' element={<Category />} />
             </Route>
             <Route path='/sign-in' element={<SignIn />} />
