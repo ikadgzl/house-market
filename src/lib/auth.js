@@ -1,5 +1,4 @@
 import {
-  getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   updateProfile,
@@ -7,11 +6,9 @@ import {
   GoogleAuthProvider,
   signInWithPopup
 } from 'firebase/auth';
-import { addDoc, doc, getDoc, setDoc } from 'firebase/firestore';
-import { db } from '../firebase/config';
+import { doc, getDoc } from 'firebase/firestore';
+import { auth, db } from '../firebase/config';
 import { addDocument } from './firestore';
-
-const auth = getAuth();
 
 export const signUp = async ({ name: displayName, email, password }) => {
   try {

@@ -1,5 +1,4 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { getAuth } from 'firebase/auth';
 
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -14,10 +13,9 @@ import SignUp from './pages/SignUp';
 import Navbar from './components/Navbar';
 import PrivateRoute from './components/PrivateRoute';
 import Spinner from './components/Spinner';
+import { auth } from './firebase/config';
 
 function App() {
-  const auth = getAuth();
-
   if (!auth) {
     <Spinner />;
   }

@@ -1,14 +1,13 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { getAuth, updateProfile } from 'firebase/auth';
+import { updateProfile } from 'firebase/auth';
 import { updateDoc, doc } from 'firebase/firestore';
-import { db } from '../firebase/config';
+import { auth, db } from '../firebase/config';
 
 import { toast } from 'react-toastify';
 
 function Profile() {
-  const auth = getAuth();
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
