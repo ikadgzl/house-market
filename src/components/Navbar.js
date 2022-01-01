@@ -27,13 +27,13 @@ function Navbar() {
           </li>
 
           <li className='navbarListItem'>
-            <NavLink to='/offer'>
+            <NavLink to='/offers'>
               <OfferIcon
                 fill={handleSVGColor('/offer') ? '#2c2c2c' : '#8f8f8f'}
                 width='36px'
                 heigh='36px'
               />
-              <p>Offer</p>
+              <p>Offers</p>
             </NavLink>
           </li>
 

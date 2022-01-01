@@ -14,6 +14,8 @@ import Navbar from './components/Navbar';
 import PrivateRoute from './components/PrivateRoute';
 import Spinner from './components/Spinner';
 import { auth } from './firebase/config';
+import Category from './pages/Category';
+import CreateListing from './pages/CreateListing';
 
 function App() {
   if (!auth) {
@@ -27,8 +29,13 @@ function App() {
           <Routes>
             <Route path='/' element={<PrivateRoute />}>
               <Route index element={<Explore />} />
-              <Route path='/offer' element={<Offers />} />
+              <Route path='/offers' element={<Offers />} />
               <Route path='/profile' element={<Profile />} />
+              <Route
+                path='/profile/create-listing'
+                element={<CreateListing />}
+              />
+              <Route path='/category/:categoryName' element={<Category />} />
             </Route>
             <Route path='/sign-in' element={<SignIn />} />
             <Route path='/sign-up' element={<SignUp />} />
