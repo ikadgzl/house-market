@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { toast } from 'react-toastify';
 import Spinner from '../components/Spinner';
 import { auth } from '../firebase/config';
 
 const INITIAL_DATA = {
-  type: 'rent',
+  type: '',
   name: '',
   bedrooms: 1,
   bathrooms: 1,
@@ -15,7 +16,7 @@ const INITIAL_DATA = {
   discountedPrice: 0,
   imageUrls: [],
   lat: 0,
-  long: 0
+  lng: 0
 };
 
 function CreateListing() {
@@ -23,7 +24,7 @@ function CreateListing() {
     ...INITIAL_DATA,
     userRef: auth.currentUser.uid
   });
-  const [geolocationEnabled, setGeolocationEnabled] = useState(true);
+  const [geolocationEnabled, setGeolocationEnabled] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const handleMutate = (e) => {
@@ -48,10 +49,40 @@ function CreateListing() {
     }
   };
 
-  const handleCreateListing = (e) => {
+  const handleCreateListing = async (e) => {
     e.preventDefault();
 
+    setLoading(true);
+
     console.log(formData);
+    if (formData.discountedPrice >= formData.regularPrice) {
+      setLoading(false);
+
+      toast.error('Discounted price needs to be less than regular price!');
+      return;
+    }
+
+    if (formData.imageUrls.length > 6) {
+      setLoading(false);
+
+      toast.error('Max 6 images!');
+      return;
+    }
+
+    let geolocation = {};
+
+    if (geolocationEnabled) {
+      // NEED TO PAY FOR THIS API...
+      // const res = await fetch(
+      //   `https://maps.googleapis.com/maps/api/geocode/json?address=${formData.address}&key=AIzaSyBejH-VP6WaOi-1z17td48gqo5gHtuTQTk`
+      // );
+      // const data = await res.json();
+    } else {
+      geolocation.lat = formData.lat;
+      geolocation.lng = formData.lng;
+    }
+
+    setLoading(false);
   };
 
   return (
@@ -208,8 +239,8 @@ function CreateListing() {
                 <input
                   className='formInputSmall'
                   type='number'
-                  name='long'
-                  value={formData.long}
+                  name='lng'
+                  value={formData.lng}
                   onChange={handleMutate}
                   required
                 />
