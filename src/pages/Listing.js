@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
 
 import Spinner from '../components/Spinner';
 import shareIcon from '../assets/svg/shareIcon.svg';
@@ -34,6 +35,8 @@ function Listing() {
       setShareLinkCopied(false);
     }, 2000);
   };
+
+  console.log(listing);
 
   if (loading) return <Spinner />;
 
@@ -90,7 +93,22 @@ function Listing() {
 
         <p className='listingLocationTitle'>Location</p>
 
-        {/* map */}
+        <div className='leafletContainer'>
+          <MapContainer
+            style={{ height: '100%', width: '100%' }}
+            center={[listing.lat, listing.lng]}
+            zoom={13}
+            scrollWheelZoom={false}
+          >
+            <TileLayer
+              attribution='&copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+              url='https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png'
+            />
+            <Marker position={[listing.lat, listing.lng]}>
+              <Popup>{listing.location}</Popup>
+            </Marker>
+          </MapContainer>
+        </div>
 
         {auth.currentUser.uid !== listing.userRef && (
           <Link
