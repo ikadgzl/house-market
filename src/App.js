@@ -74,7 +74,7 @@ function App() {
             element={!user ? <ForgotPassword /> : <Navigate to='/' />}
           />
         </Routes>
-        <Navbar />
+        {user && <Navbar />}
       </Router>
 
       <ToastContainer autoClose={1000} />
