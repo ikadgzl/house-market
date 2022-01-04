@@ -1,10 +1,13 @@
+import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Spinner from '../components/Spinner';
-import { auth } from '../firebase/config';
+import { auth, db } from '../firebase/config';
+import { storeImage } from '../lib/storage';
 
 const INITIAL_DATA = {
-  type: '',
+  type: 'rent',
   name: '',
   bedrooms: 1,
   bathrooms: 1,
@@ -24,8 +27,9 @@ function CreateListing() {
     ...INITIAL_DATA,
     userRef: auth.currentUser.uid
   });
-  const [geolocationEnabled, setGeolocationEnabled] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  const navigate = useNavigate();
 
   const handleMutate = (e) => {
     let boolean = null;
@@ -54,7 +58,6 @@ function CreateListing() {
 
     setLoading(true);
 
-    console.log(formData);
     if (formData.discountedPrice >= formData.regularPrice) {
       setLoading(false);
 
@@ -69,21 +72,31 @@ function CreateListing() {
       return;
     }
 
-    let geolocation = {};
+    const imagePromises = storeImage(formData.imageUrls);
+    const imageUrls = await Promise.all(imagePromises);
 
-    if (geolocationEnabled) {
-      // NEED TO PAY FOR THIS API...
-      // const res = await fetch(
-      //   `https://maps.googleapis.com/maps/api/geocode/json?address=${formData.address}&key=AIzaSyBejH-VP6WaOi-1z17td48gqo5gHtuTQTk`
-      // );
-      // const data = await res.json();
-    } else {
-      geolocation.lat = formData.lat;
-      geolocation.lng = formData.lng;
-    }
+    const data = {
+      ...formData,
+      imageUrls,
+      timestamp: serverTimestamp()
+    };
+
+    delete data.address;
+
+    data.location = formData.address;
+    !data.offer && delete data.discountedPrice;
+
+    const docRef = await addDoc(collection(db, 'listings'), data);
 
     setLoading(false);
+    toast.success('Listing saved!');
+
+    setTimeout(() => {
+      navigate(`/category/${data.type}/${docRef.id}`);
+    }, 1000);
   };
+
+  if (loading) return <Spinner />;
 
   return (
     <div className='profile'>
@@ -220,7 +233,7 @@ function CreateListing() {
             required
           />
 
-          {!geolocationEnabled && (
+          {
             <div className='formLatLng flex'>
               <div>
                 <label className='formLabel'>Latitude</label>
@@ -246,7 +259,7 @@ function CreateListing() {
                 />
               </div>
             </div>
-          )}
+          }
 
           <label className='formLabel'>Offer </label>
           <div className='formButtons'>

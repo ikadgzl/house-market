@@ -5,6 +5,7 @@ import bedIcon from '../assets/svg/bedIcon.svg';
 import bathtubIcon from '../assets/svg/bathtubIcon.svg';
 
 function ListingItem({ listing, handleDelete }) {
+  console.log(listing);
   return (
     <li className='categoryListing'>
       <Link
@@ -26,8 +27,8 @@ function ListingItem({ listing, handleDelete }) {
               ? listing.discountedPrice
                   .toString()
                   .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-              : listing
-                  .regularPricetoString()
+              : listing.regularPrice
+                  .toString()
                   .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
             {listing.type === 'rent' && ' / Month'}
           </p>
