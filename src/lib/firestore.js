@@ -7,7 +7,8 @@ import {
   orderBy,
   limit,
   getDocs,
-  where
+  where,
+  getDoc
 } from 'firebase/firestore';
 import { db } from '../firebase/config';
 
@@ -40,6 +41,21 @@ export const fetchListings = async (_query) => {
     }));
 
     return listings;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const fetchListing = async (id) => {
+  try {
+    const docRef = doc(db, 'listings', id);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      return docSnap.data();
+    } else {
+      return null;
+    }
   } catch (error) {
     console.log(error);
   }

@@ -23,6 +23,7 @@ import Category from './pages/Category';
 import CreateListing from './pages/CreateListing';
 import { useEffect, useState } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
+import Listing from './pages/Listing';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -56,6 +57,7 @@ function App() {
             <Route path='/profile' element={<Profile />} />
             <Route path='/create-listing' element={<CreateListing />} />
             <Route path='/category/:categoryName' element={<Category />} />
+            <Route path='/category/:categoryName/:id' element={<Listing />} />
           </Route>
           <Route
             path='/sign-in'
