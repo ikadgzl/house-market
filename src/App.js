@@ -24,6 +24,7 @@ import CreateListing from './pages/CreateListing';
 import { useEffect, useState } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import Listing from './pages/Listing';
+import Contact from './pages/Contact';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -55,6 +56,7 @@ function App() {
             <Route index element={<Explore />} />
             <Route path='/offers' element={<Offers />} />
             <Route path='/profile' element={<Profile />} />
+            <Route path='/contact/:landlordId' element={<Contact />} />
             <Route path='/create-listing' element={<CreateListing />} />
             <Route path='/category/:categoryName' element={<Category />} />
             <Route path='/category/:categoryName/:id' element={<Listing />} />

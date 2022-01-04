@@ -4,7 +4,7 @@ import { Link, useParams } from 'react-router-dom';
 import Spinner from '../components/Spinner';
 import shareIcon from '../assets/svg/shareIcon.svg';
 
-import { fetchListing } from '../lib/firestore';
+import { fetchDoc } from '../lib/firestore';
 import { auth } from '../firebase/config';
 
 function Listing() {
@@ -16,7 +16,7 @@ function Listing() {
 
   useEffect(() => {
     const fetchListingAsync = async () => {
-      const data = await fetchListing(id);
+      const data = await fetchDoc('listings', id);
 
       setListing(data);
       setLoading(false);

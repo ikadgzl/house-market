@@ -46,9 +46,9 @@ export const fetchListings = async (_query) => {
   }
 };
 
-export const fetchListing = async (id) => {
+export const fetchDoc = async (from, id) => {
   try {
-    const docRef = doc(db, 'listings', id);
+    const docRef = doc(db, from, id);
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
