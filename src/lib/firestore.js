@@ -26,12 +26,17 @@ export const fetchListings = async (_query) => {
   try {
     const listingsRef = collection(db, 'listings');
 
-    const q = query(
-      listingsRef,
-      where(..._query),
-      orderBy('timestamp', 'desc'),
-      limit(10)
-    );
+    let q;
+    if (_query) {
+      q = query(
+        listingsRef,
+        where(..._query),
+        orderBy('timestamp', 'desc'),
+        limit(10)
+      );
+    } else {
+      q = query(listingsRef, orderBy('timestamp', 'desc'), limit(10));
+    }
 
     const querySnapshot = await getDocs(q);
 

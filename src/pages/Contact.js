@@ -24,8 +24,6 @@ function Contact() {
     getLandlord();
   }, [landlordId]);
 
-  console.log(landlord);
-
   const handleMessage = (e) => {
     setMessage(e.target.value);
   };
