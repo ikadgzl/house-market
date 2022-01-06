@@ -24,8 +24,6 @@ function Slider() {
     getListingsAsync();
   }, []);
 
-  console.log(listings);
-
   if (loading) return <Spinner />;
 
   return (

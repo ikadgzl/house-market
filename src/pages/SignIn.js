@@ -31,13 +31,7 @@ function SignIn() {
 
     const user = await signIn(formData);
 
-    if (user) {
-      toast.success('Signed In!');
-
-      setTimeout(() => {
-        navigate('/');
-      }, 1000);
-    } else {
+    if (!user) {
       toast.error('Bad user credentials!');
     }
   };

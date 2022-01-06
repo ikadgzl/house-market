@@ -41,8 +41,6 @@ function Listing() {
     }, 2000);
   };
 
-  console.log(listing);
-
   if (loading) return <Spinner />;
 
   return (
